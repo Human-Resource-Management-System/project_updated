@@ -68,6 +68,7 @@ public class CandidateController {
 	public String listOfCandidatesAfterInsertion(@ModelAttribute Candidate cand, Model model) {
 
 		candidateDAO.saveCandidate(cand);
+		logger.info("New candidate inserted successfully");
 		List<Candidate> candidates = candidateDAO.getAllCandidates();
 		List<CandidateIO> candidateOutputs = modelMapper.map(candidates, new TypeToken<List<CandidateIO>>() {
 		}.getType());

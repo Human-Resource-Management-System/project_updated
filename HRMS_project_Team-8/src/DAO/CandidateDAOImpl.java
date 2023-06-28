@@ -1,6 +1,5 @@
 package DAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -32,11 +31,13 @@ public class CandidateDAOImpl implements CandidateDAO {
 	@Transactional
 	public void saveCandidate(Candidate candidate) {
 		entityManager.persist(candidate);
+
 	}
 
 	@Override
 	@Transactional
 	public Candidate getCandidateById(int candidateId) {
+
 		return entityManager.find(Candidate.class, candidateId);
 	}
 
@@ -162,5 +163,4 @@ public class CandidateDAOImpl implements CandidateDAO {
 
 	}
 
-	
 }

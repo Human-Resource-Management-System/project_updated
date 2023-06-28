@@ -223,7 +223,7 @@
                     <% if (pageNum == currentPage) { %>
                         <span><%= pageNum %></span>
                     <% } else { %>
-                        <a href="?page=<%= pageNum %>"><%= pageNum %></a>
+                        <a href="?page=<%= pageNum %>" class="page-link"><%= pageNum %></a>
                     <% } %>
                 <% } %>
             <% } %>

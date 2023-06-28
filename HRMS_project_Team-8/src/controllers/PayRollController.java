@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,7 @@ public class PayRollController {
 	private EmployeePayRollInputModel payRollInput;
 	private EmployeePayslip empPaySlip;
 	private PayRollDAO payrollDAO;
+	private static final Logger logger = LoggerFactory.getLogger(PayRollController.class);
 
 	@Autowired
 	PayRollController(PayRollService payRollservice, EmployeeDAO ed, EmployeePayRollOutputModel payRollOutput,
@@ -108,6 +111,7 @@ public class PayRollController {
 		empPaySlip.setLastUpdatedDate(new Timestamp(System.currentTimeMillis()));
 
 		payrollDAO.insertEmployeePayslip(empPaySlip);
+		logger.info("Payslip data inserted successfully!!");
 
 		// for setting into output model
 		payRollOutput.setId(id);
@@ -128,6 +132,8 @@ public class PayRollController {
 		payRollOutput.setTds(empPaySlip.getTds());
 		payRollOutput.setTotal(payRollservice.calculateTotalPay());
 		payRollOutput.setNetpay(payRollservice.calculateNetPay());
+
+		logger.info("Payslip generated successfully!!");
 
 		model.addAttribute("pay", payRollOutput);
 
@@ -183,6 +189,8 @@ public class PayRollController {
 			payRollOutput
 					.setNetpay((eps.getBasicSalary() + eps.getHra() + eps.getDa() + eps.getTa() + eps.getAdditions())
 							- eps.getDeductions());
+
+			logger.info("Employee Payslip retrieved successfully!!");
 
 			model.addAttribute("output", payRollOutput);
 		} catch (Exception e) {

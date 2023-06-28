@@ -479,7 +479,7 @@
             <a onclick="viewProfile()"><i class="ri-bar-chart-line"></i> Profile</a>
           </li>
           
- <li class="item">
+          <li class="item">
             <a onclick = "getcandidates(1);"><i class="ri-bar-chart-line"></i> Candidates</a>
           </li>
 
