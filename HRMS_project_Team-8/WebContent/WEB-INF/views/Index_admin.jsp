@@ -196,20 +196,27 @@
   	  });
   	}
     
-    function getcandidates() {
-    	  $.ajax({
-    	    type: "POST",
-    	    url: "viewcandidates",
-    	    data: {},
-    	    success: function(response) {
-    	      var containerDiv = $("#main");
-    	      containerDiv.html(response);
-    	    },
-    	    error: function() {
-    	      alert("Error occurred. Please try again later.");
-    	    }
-    	  });
-    	}
+    function getcandidates(page) {
+    	$.ajax({
+      	    type: "GET",
+      	  url: "viewcandidates?page=" + page,
+      	    success: function(response) {
+      	      var containerDiv = $("#main");
+      	      containerDiv.html(response);
+      	    },
+      	    error: function() {
+      	      alert("Error occurred. Please try again later.");
+      	    }
+      	  });
+    	
+    }
+ // Event listener for page link clicks
+    $(document).on("click", "a.page-link", function(e) {
+        e.preventDefault();
+        var page = $(this).attr("href").split("=")[1];
+        getcandidates(page);
+    });    
+    
     
     function referenceDoc() {
   	  $.ajax({
@@ -436,6 +443,21 @@
     	});
     }
     
+    function viewProfile() {
+  	  $.ajax({
+  	    type: "GET",
+  	    url: "toprofileadmin",
+  	    success: function(response) {
+  	      var containerDiv = $(".main");
+  	      containerDiv.html(response);
+  	     
+  	    },
+  	    error: function() {
+  	      alert("Error occurred. Please try again later.");
+  	    }
+  	  });
+  	}
+    
     
     </script>
     
@@ -454,11 +476,11 @@
           </div>
 
           <li class="item">
-            <a href="#"><i class="ri-bar-chart-line"></i> Profile</a>
+            <a onclick="viewProfile()"><i class="ri-bar-chart-line"></i> Profile</a>
           </li>
           
  <li class="item">
-            <a onclick = "getcandidates();"><i class="ri-bar-chart-line"></i> Candidates</a>
+            <a onclick = "getcandidates(1);"><i class="ri-bar-chart-line"></i> Candidates</a>
           </li>
 
           <li class="item">

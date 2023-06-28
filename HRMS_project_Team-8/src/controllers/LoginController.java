@@ -35,7 +35,7 @@ public class LoginController {
 			@RequestParam("empl_password") String password, HttpServletRequest request) {
 
 		HttpSession session = request.getSession(true);
-		System.out.println("thi9s isemployee side ");
+		System.out.println("this is employee side ");
 
 		if (empservice.authenticateUser(email, password)) {
 
@@ -52,7 +52,7 @@ public class LoginController {
 	@RequestMapping(value = "/admin", method = RequestMethod.POST)
 	public String enterIntoMenu_admin(@RequestParam("admin_email") String email,
 			@RequestParam("admin_password") String password, HttpServletRequest request) {
-		System.out.println("thi9s isv admin side ");
+		System.out.println("this is admin side ");
 
 		HttpSession session = request.getSession(true);
 		if (empservice.authenticateUser_admin(email, password)) {

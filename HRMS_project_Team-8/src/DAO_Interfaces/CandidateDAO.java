@@ -91,4 +91,6 @@ public interface CandidateDAO {
 	 * @return A list of candidates whose offer letter has been issued.
 	 */
 	public List<Candidate> findAllProvidedCandidates();
+
+	
 }

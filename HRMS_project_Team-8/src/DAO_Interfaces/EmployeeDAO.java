@@ -2,6 +2,8 @@ package DAO_Interfaces;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import models.Employee;
 import models.EmployeeParameter;
 
@@ -12,7 +14,7 @@ public interface EmployeeDAO {
 	 *
 	 * @return A list of all employees.
 	 */
-	List<Employee> getAllEmployees();
+	List<Employee> getAllEmployees(HttpSession session);
 
 	/**
 	 * Retrieves an employee by their ID.

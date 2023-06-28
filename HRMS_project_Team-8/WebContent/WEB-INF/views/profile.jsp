@@ -114,12 +114,6 @@
           <label for="emplFname">Father's Name</label>
           <input type="text" class="form-control" id="emplFname" value="<%=empdet.getEmplFname() %>" readonly><br><br>
 
-          <label for="emplLuudate">Last Updated Date</label>
-          <input type="text" class="form-control" id="emplLuudate" value="<%=empdet.getEmplLuudate() %>" readonly><br><br>
-
-          <label for="emplLuuser">Last Updated User</label>
-          <input type="text" class="form-control" id="emplLuuser" value="<%=empdet.getEmplLuuser() %>" readonly><br><br>
-
           <button type="submit" class="btn btn-primary">Save Address</button>
         </form>
       </div>

@@ -172,10 +172,14 @@
 </head>
 <body>
     <h1>Candidate List</h1>
-    <%-- Retrieve the list of employees from the model --%>
+    <% final int PAGE_SIZE = 10; %>
     <% List<CandidateIO> candidates = (List<CandidateIO>) request.getAttribute("candidates"); %>
-    <%-- Check if the list is not null and not empty --%>
-    <% if (candidates != null && !candidates.isEmpty()) { %>
+    <% String pageParam = request.getParameter("page"); %>
+    <% int currentPage = (pageParam != null) ? Integer.parseInt(pageParam) : 1; %>
+    <% int startIndex = (currentPage - 1) * PAGE_SIZE; %>
+    <% int endIndex = Math.min(startIndex + PAGE_SIZE, candidates.size()); %>
+    
+    <% if (!candidates.isEmpty()) { %>
         <table>
             <thead>
                 <tr>
@@ -192,9 +196,9 @@
                 </tr>
             </thead>
             <tbody>
-                <%-- Iterate over the list of employees and display the data --%>
-                <% for (CandidateIO candidate : candidates) { %>
-                     <tr onclick="openModal('<%= candidate.getCandId() %>')">
+                <% for (int i = startIndex; i < endIndex; i++) { %>
+                    <% CandidateIO candidate = candidates.get(i); %>
+                    <tr onclick="openModal('<%= candidate.getCandId() %>')">
                         <td><%= candidate.getCandId() %></td>
                         <td><%= candidate.getCandFirstName() %></td>
                         <td><%= candidate.getCandMiddleName() %></td>
@@ -209,18 +213,33 @@
                 <% } %>
             </tbody>
         </table>
-         <!-- Modal popup content -->
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <div id="modalContent"></div>
-            </div>
-        </div>
+
         <div class="center">
-           <button onclick="openAddCandidatePopup()">Add</button> 
-       </div>
+            <%-- Pagination Links --%>
+            <% int totalPages = (int) Math.ceil((double) candidates.size() / PAGE_SIZE); %>
+            <% if (totalPages > 1) { %>
+                <% for (int pageNum = 1; pageNum <= totalPages; pageNum++) { %>
+                    <%-- Generate links for each page number --%>
+                    <% if (pageNum == currentPage) { %>
+                        <span><%= pageNum %></span>
+                    <% } else { %>
+                        <a href="?page=<%= pageNum %>"><%= pageNum %></a>
+                    <% } %>
+                <% } %>
+            <% } %>
+
+            <button onclick="openAddCandidatePopup()">Add</button> 
+        </div>
     <% } else { %>
         <p class="no-employees">No candidates found.</p>
     <% } %>
+    
+    <!-- Modal popup content -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
 </body>
 </html>

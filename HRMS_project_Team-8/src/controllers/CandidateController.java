@@ -1,10 +1,11 @@
-
 package controllers;
 
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class CandidateController {
 
 	private CandidateDAO candidateDAO;
 	private final ModelMapper modelMapper;
+	private static final Logger logger = LoggerFactory.getLogger(CandidateController.class);
 
 	public CandidateController(CandidateDAO candidateDAO, ModelMapper mp) {
 		this.candidateDAO = candidateDAO;
@@ -30,12 +32,13 @@ public class CandidateController {
 	}
 
 	// To view list of candidates
-	@RequestMapping("/viewcandidates")
-	public String showCandidateList(Model model) {
+	@RequestMapping(value = "/viewcandidates", method = RequestMethod.GET)
+	public String showCandidateList(@RequestParam("page") int page, Model model) {
 		List<Candidate> candidates = candidateDAO.getAllCandidates();
 		List<CandidateIO> candidateOutputs = modelMapper.map(candidates, new TypeToken<List<CandidateIO>>() {
 		}.getType());
 		model.addAttribute("candidates", candidateOutputs);
+		logger.info("Displayed list of candidates!!");
 		return "candidateview";
 	}
 
@@ -50,6 +53,7 @@ public class CandidateController {
 		} else {
 			model.addAttribute("error", "No candidate found with the provided ID.");
 		}
+		logger.info("Showing Candidate Details By Id!!");
 		return "viewcandidate";
 	}
 
