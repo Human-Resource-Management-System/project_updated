@@ -44,14 +44,13 @@
 
     <h1>Enter Employee ID</h1>
     
-    <form action="employeeListDelete" method="post">
+    <form method="post" action="employeeListDelete">
         <label for="emplId">Employee ID:</label>
         <input type="text" name="emplId" id="emplId" required><br>
-        <input type="submit" value="Submit">
+        <input type="submit" class="delemployee" value="Submit">
     </form>
     
-    <div id="employeeList">    
-    </div>
+   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         function loadEmployeeList() {
@@ -59,7 +58,7 @@
         	url: "employeeListDelete", 
         	method: "GET",
         	success: function(response) {
-            	$("#employeeList").html(response);
+            	$("#employeeListDelete").html(response);
         	},
         	error: function(xhr, status, error) {
             	console.log("Error loading employee list: " + error);

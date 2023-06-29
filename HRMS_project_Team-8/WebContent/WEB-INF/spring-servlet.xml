@@ -119,6 +119,7 @@
     <bean id="rs" class="service.ReferenceDocumentServiceImpl" />
     <bean id="doc" class = "models.EmployeeRefDocuments"/>
    <bean id="empservice" class="service.EmployeeLoginService"/>
+   <bean id="candidates" class = "models.Candidate"/>
     
      <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <!-- Set the maximum allowed file size (in bytes) -->

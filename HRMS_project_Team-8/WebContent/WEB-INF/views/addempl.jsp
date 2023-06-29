@@ -168,7 +168,7 @@
         <label for="empl_status">Status:</label>
         <input type="text" name="empl_status" id="empl_status"><br>
         
-        <input type="submit" value="Submit"><br><br>
+        <input type="submit" class="addemployee-submit-button" value="Submit"><br><br>
       
       </form>
      

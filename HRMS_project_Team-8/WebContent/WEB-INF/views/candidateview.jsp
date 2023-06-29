@@ -132,27 +132,7 @@
             };
             xhttp.open("GET", url, true);
             xhttp.send();
-        }
-        
-            
-
-        // Function to open the modal popup
-        function openAddCandidatePopup() {
-            var modal = document.getElementById("myModal");
-            modal.style.display = "block";
-            // Set the URL of the add candidate form
-            var url = "candidate";
-            // Use AJAX to fetch the add candidate form content and update the modal content
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var addCandidateForm = this.responseText;
-                    document.getElementById("modalContent").innerHTML = addCandidateForm;
-                }
-            };
-            xhttp.open("GET", url, true);
-            xhttp.send();
-        }
+        }                 
 
         
         // Function to close the modal popup
@@ -172,14 +152,10 @@
 </head>
 <body>
     <h1>Candidate List</h1>
-    <% final int PAGE_SIZE = 10; %>
+    <%-- Retrieve the list of candidates from the model --%>
     <% List<CandidateIO> candidates = (List<CandidateIO>) request.getAttribute("candidates"); %>
-    <% String pageParam = request.getParameter("page"); %>
-    <% int currentPage = (pageParam != null) ? Integer.parseInt(pageParam) : 1; %>
-    <% int startIndex = (currentPage - 1) * PAGE_SIZE; %>
-    <% int endIndex = Math.min(startIndex + PAGE_SIZE, candidates.size()); %>
-    
-    <% if (!candidates.isEmpty()) { %>
+    <%-- Check if the list is not null and not empty --%>
+    <% if (candidates != null && !candidates.isEmpty()) { %>
         <table>
             <thead>
                 <tr>
@@ -196,8 +172,8 @@
                 </tr>
             </thead>
             <tbody>
-                <% for (int i = startIndex; i < endIndex; i++) { %>
-                    <% CandidateIO candidate = candidates.get(i); %>
+                <%-- Iterate over the list of candidates and display the data --%>
+                <% for (CandidateIO candidate : candidates) { %>
                     <tr onclick="openModal('<%= candidate.getCandId() %>')">
                         <td><%= candidate.getCandId() %></td>
                         <td><%= candidate.getCandFirstName() %></td>
@@ -213,33 +189,33 @@
                 <% } %>
             </tbody>
         </table>
-
+        
         <div class="center">
-            <%-- Pagination Links --%>
-            <% int totalPages = (int) Math.ceil((double) candidates.size() / PAGE_SIZE); %>
-            <% if (totalPages > 1) { %>
-                <% for (int pageNum = 1; pageNum <= totalPages; pageNum++) { %>
-                    <%-- Generate links for each page number --%>
-                    <% if (pageNum == currentPage) { %>
-                        <span><%= pageNum %></span>
-                    <% } else { %>
-                        <a href="?page=<%= pageNum %>" class="page-link"><%= pageNum %></a>
-                    <% } %>
+            <%-- Generate pagination links based on the total number of pages --%>
+            <% int totalPages = (int) request.getAttribute("totalPages"); %>
+            <% int currentPage = (int) request.getAttribute("currentPage"); %>
+            <% for (int i = 1; i <= totalPages; i++) { %>
+                <% if (i == currentPage) { %>
+                    <strong><%= i %></strong>
+                <% } else { %>
+                    <a href="?page=<%= i %>" class="page-link"><%= i %></a>
                 <% } %>
             <% } %>
+            <br><br>
+           <button class="addcand" onclick="addCandidate()">Add</button>
 
-            <button onclick="openAddCandidatePopup()">Add</button> 
         </div>
+        
+        <!-- Modal popup content -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div id="modalContent"></div>
+            </div>
+        </div>
+        
     <% } else { %>
         <p class="no-employees">No candidates found.</p>
     <% } %>
-    
-    <!-- Modal popup content -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="modalContent"></div>
-        </div>
-    </div>
 </body>
 </html>

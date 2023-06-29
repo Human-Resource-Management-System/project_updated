@@ -56,6 +56,16 @@
              cursor: pointer;
              border-radius: 3px;
 		}		
+		
+		 button.back-buttons {
+    		 background-color: #333;
+             color: white;
+             border: none;
+             padding: 10px 20px;
+             margin-top: 10px;
+             cursor: pointer;
+             border-radius: 3px;
+		}		
      </style>
 </head>
 
@@ -101,8 +111,9 @@
                     <p>Fixed Salary: <%= employee.getEmpl_fixedsal() %></p>
                     <p>Variable Salary: <%= employee.getEmpl_variablesal() %></p>
                     <p>Status: <%= employee.getEmpl_status() %></p>
-                    <button class="back-button" onclick="window.location.href='updempl?id=<%= employee.getEmplId() %>'">Edit</button>
-                    <button class="back-button" onclick="window.location.href='emplparam?id=<%= employee.getEmplId() %>'">Parameters</button>
+                    <button class="back-button" data-id="<%= employee.getEmplId() %>">Edit</button>
+                    <button class="back-buttons" data-id="<%= employee.getEmplId() %>">Parameters</button>
+
                 </div>
                 
             <% } else { %>

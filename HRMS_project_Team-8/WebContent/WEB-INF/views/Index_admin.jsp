@@ -139,6 +139,7 @@
     }
     
     </style>
+   
     <!-- Fontawesome CDN Link -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -148,7 +149,7 @@
     
     
     
-     <script>
+ <script>
     function getHolidays() {
     	  $.ajax({
     	    type: "GET",
@@ -458,12 +459,152 @@
   	  });
   	}
     
-    
-    </script>
-    
-  
+    $(document).on("click", ".submit-button", function(e) {
+        e.preventDefault();
+        submitCandidateForm();
+    });
 
+    function submitCandidateForm() {
+        var form = $("#candidateForm"); 
+        var formData = form.serialize(); // Serialize the form data
+
+        $.ajax({
+            type: "POST",
+            url: "candidateadded",
+            data: formData, // Pass the serialized form data
+            success: function(response) {
+                var containerDiv = $(".main");
+                containerDiv.html(response);
+            },
+            error: function() {
+                alert("Error occurred. Please try again later.");
+            }
+        });
+    }
+       
     
+    function addCandidate() {
+  	  $.ajax({
+  	    type: "GET",
+  	    url: "candidate",
+  	    success: function(response) {
+  	      var containerDiv = $(".main");
+  	      containerDiv.html(response);
+  	     
+  	    },
+  	    error: function() {
+  	      alert("Error occurred. Please try again later.");
+  	    }
+  	  });
+  	}
+    
+   
+    
+     $(document).on("click", ".addemployee-submit-button", function(e) {
+        e.preventDefault();        
+        addedEmployees();
+    });    
+    
+    function addedEmployees() {
+    	  $.ajax({
+    	    type: "POST",
+    	    url: "employeeList",
+    	    success: function(response) {
+    	      var containerDiv = $(".main");
+    	      containerDiv.html(response);
+    	     
+    	    },
+    	    error: function() {
+    	      alert("Error occurred. Please try again later.");
+    	    }
+    	  });
+    	}
+    	
+    	
+    	 $(document).on("click", ".delemployee", function(e) {
+        e.preventDefault();        
+        deleteEmployees();
+    });    
+    
+    function deleteEmployees() {
+    	  $.ajax({
+    	    type: "POST",
+    	    url: "employeeListDelete",
+    	    success: function(response) {
+    	      var containerDiv = $(".main");
+    	      containerDiv.html(response);
+    	     
+    	    },
+    	    error: function() {
+    	      alert("Error occurred. Please try again later.");
+    	    }
+    	  });
+    	}
+    
+    
+    
+    $(document).on("click", ".back-button", function(e) {
+    	  e.preventDefault();
+    	  var id = $(this).data("id");
+    	  updateCandidate(id);
+    	});
+
+    	function updateCandidate(id) {
+    	  $.ajax({
+    	    type: "GET",
+    	    url: "updempl?id=" + id,
+    	    success: function(response) {
+    	      var containerDiv = $(".main");
+    	      containerDiv.html(response);
+    	    },
+    	    error: function() {
+    	      alert("Error occurred. Please try again later.");
+    	    }
+    	  });
+    	}
+    	
+    	$(document).on("click", ".back-buttons", function(e) {
+    		  e.preventDefault();
+    		  var id = $(this).data("id");
+    		  updateParameters(id);
+    		});
+
+    		function updateParameters(id) {
+    		  $.ajax({
+    		    type: "GET",
+    		    url: "emplparam?id=" + id,
+    		    success: function(response) {
+    		      var containerDiv = $(".main");
+    		      containerDiv.html(response);
+    		    },
+    		    error: function() {
+    		      alert("Error occurred. Please try again later.");
+    		    }
+    		  });
+    		}
+    		
+    		$(document).on("click", ".saved", function(e) {
+    			  e.preventDefault();
+    			  saveData();
+    			});
+
+    			function saveData() {
+    			  var formData = $("form").serialize(); // Serialize the form data
+
+    			  $.ajax({
+    			    type: "POST",
+    			    url: "update",
+    			    data: formData, // Send the serialized form data
+    			    success: function(response) {
+    			      console.log("Data saved successfully.");
+    			    },
+    			    error: function() {
+    			      alert("Error occurred. Please try again later.");
+    			    }
+    			  });
+    			}
+
+ </script>   
   </head>
   <body>
     <nav class="sidebar">

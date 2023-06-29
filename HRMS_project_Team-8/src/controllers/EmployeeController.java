@@ -112,9 +112,12 @@ public class EmployeeController {
 
 	// To show the status of the employee update
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateStatus(@ModelAttribute EmployeeOutput empst, Model model) {
+	public String updateStatus(@ModelAttribute EmployeeOutput empst, Model model, HttpSession session) {
 		Employee erm = modelMapper.map(empst, new TypeToken<Employee>() {
 		}.getType());
+		erm.setEmplLuuser((int) session.getAttribute("adminId"));
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		erm.setEmplLuudate(currentTimestamp);
 		emp.updateEmployee(erm);
 		model.addAttribute("message", "Employee details updated successfully!");
 		return "update";

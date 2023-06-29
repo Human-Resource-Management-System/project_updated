@@ -9,6 +9,7 @@
         h2 {
             text-align: center;
             color: #333;
+            margin-top:20px;
         }
 
         form {
@@ -50,7 +51,7 @@
     </style>
 </head>
 <body>
-    <h2>Select Payslips by Month</h2>
+    <h2>Select Payslips by Month</h2><br>
     <form action="EmployeeSidePaySlip" method="post">
         <label for="month">Select Month:</label>
  		<select id="month" name="month">

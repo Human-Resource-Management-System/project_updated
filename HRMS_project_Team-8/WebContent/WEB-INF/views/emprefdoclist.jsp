@@ -11,6 +11,8 @@
       padding: 20px;
       max-width: 600px;
       background-color: white;
+      margin: 0 auto; /* Add this line to center the container horizontally */
+      margin-top: 50px;
   
     }
   
