@@ -6,25 +6,27 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import models.EmployeeLeaveRequest;
 import models.JobGradeWiseLeaves;
 import models.LeaveValidationModel;
 import service_interfaces.EmployeeLeaveServiceInterface;
 
 public class EmployeeLeaveService implements EmployeeLeaveServiceInterface {
+	
+	private static Logger logger = LoggerFactory.getLogger(EmployeeLeaveService.class);
 
 	public EmployeeLeaveService() {
 	}
 
-	@Autowired
-	public EmployeeLeaveService(LeaveValidationModel leaveValidation) {
-		this.leaveValidation = leaveValidation;
-	}
 
 	private LeaveValidationModel leaveValidation;
 
 	public static long calculateLeavesTakenBetwwenDates(LocalDate startDate, LocalDate endDate) {
 	    // Calculate the number of days between the start and end dates, inclusive of both dates
+		logger.info("calculating the leaves taken between dates");
 		return ChronoUnit.DAYS.between(startDate, endDate) + 1;
 	}
 
@@ -32,6 +34,7 @@ public class EmployeeLeaveService implements EmployeeLeaveServiceInterface {
 	public LeaveValidationModel calculateLeavesTaken(List<EmployeeLeaveRequest> leaves,
 			JobGradeWiseLeaves leavesProvidedStatistics) {
 
+		logger.info("calculating leaves taken for an employee");
 
 		if (leavesProvidedStatistics != null) {
 
@@ -45,6 +48,8 @@ public class EmployeeLeaveService implements EmployeeLeaveServiceInterface {
 			long pendingCasualLeaves = 0;
 			long pendingOtherLeaves = 0;
 
+			leaveValidation = new LeaveValidationModel();
+			
 			for (EmployeeLeaveRequest leave : leaves) {
 
 				if (leave.getApprovedLeaveStartDate() == null || leave.getApprovedLeaveEndDate() == null) {
@@ -64,6 +69,7 @@ public class EmployeeLeaveService implements EmployeeLeaveServiceInterface {
 	                // Calculate leaves count for approved leave requests
 					long leavesCount = EmployeeLeaveService.calculateLeavesTakenBetwwenDates(
 							leave.getApprovedLeaveStartDate(), leave.getApprovedLeaveEndDate());
+					System.out.println(leavesCount);
 					totalNoOfLeaves += leavesCount;
 					if (leave.getLeaveType().trim().equals("SICK")) {
 						sickLeaves += leavesCount;
@@ -93,6 +99,10 @@ public class EmployeeLeaveService implements EmployeeLeaveServiceInterface {
 
 		}
 
+		logger.info("successfully calculated the leaves taken.");
+		
+	System.out.println("helo"+leaveValidation.getTakenCasualLeaves());
+		
 		return leaveValidation;
 	}
 

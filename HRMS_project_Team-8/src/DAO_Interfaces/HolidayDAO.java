@@ -4,28 +4,21 @@ import java.util.List;
 
 import models.GradeHoliday;
 import models.Holiday;
+import models.HrmsJobGrade;
+
 
 public interface HolidayDAO {
-
-	/**
-	 * Retrieves a list of all holidays.
-	 *
-	 * @return A list of all holidays.
-	 */
 	List<Holiday> findAllHolidays();
 
-	/**
-	 * Finds a holiday by its ID.
-	 *
-	 * @param id The ID of the holiday.
-	 * @return The holiday with the specified ID.
-	 */
 	GradeHoliday findHolidayById(String id);
 
-	/**
-	 * Retrieves a list of all grade holidays.
-	 *
-	 * @return A list of all grade holidays.
-	 */
 	List<GradeHoliday> findAllGradeHolidays();
+	
+	 List<HrmsJobGrade> getAllJobGradesInfo();
+	 
+	 void saveJobGrade(HrmsJobGrade jobgrade);
+	 
+	 void saveJobGradeHoliday(GradeHoliday holiday);
+	 
+	 void updateJobGradeHoliday(GradeHoliday holiday);
 }

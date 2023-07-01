@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import DAO_Interfaces.HolidayDAO;
 import models.GradeHoliday;
 import models.Holiday;
+import models.HrmsJobGrade;
+import models.JobGradeModel;
 
 @Repository
 public class HolidayDAOImpl implements HolidayDAO {
@@ -22,9 +27,12 @@ public class HolidayDAOImpl implements HolidayDAO {
 	@Override
 	@Transactional
 	public List<Holiday> findAllHolidays() {
-		TypedQuery<Holiday> query = entityManager.createQuery("SELECT h FROM Holiday h ORDER BY h.hday_date ASC",
-				Holiday.class);
-		return query.getResultList();
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Holiday> cq = cb.createQuery(Holiday.class);
+		Root<Holiday> root = cq.from(Holiday.class);
+		cq.select(root);
+		cq.orderBy(cb.asc(root.get("hday_date")));
+		return entityManager.createQuery(cq).getResultList();
 	}
 
 	@Override
@@ -38,6 +46,30 @@ public class HolidayDAOImpl implements HolidayDAO {
 		TypedQuery<GradeHoliday> query = entityManager.createQuery("SELECT gh FROM GradeHoliday gh",
 				GradeHoliday.class);
 		return query.getResultList();
+	}
+	
+	@Override
+	public List<HrmsJobGrade> getAllJobGradesInfo(){
+		TypedQuery<HrmsJobGrade> query = entityManager.createQuery("SELECT jg FROM HrmsJobGrade jg",
+				HrmsJobGrade.class);
+		return query.getResultList();
+	}
+	
+	@Override
+	public void saveJobGrade(HrmsJobGrade jobgrade) {
+		entityManager.persist(jobgrade);
+	}
+	
+	@Override
+	public void saveJobGradeHoliday(GradeHoliday holiday) {
+		entityManager.persist(holiday);
+	}
+
+	@Override
+	public void updateJobGradeHoliday(GradeHoliday holiday) {
+		GradeHoliday holidaydata = entityManager.find(GradeHoliday.class, holiday.getJbgr_id());
+		holidaydata.setJbgr_totalnoh(holiday.getJbgr_totalnoh());
+		entityManager.merge(holidaydata);
 	}
 
 }

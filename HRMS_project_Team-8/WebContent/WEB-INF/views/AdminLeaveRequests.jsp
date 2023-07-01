@@ -168,9 +168,11 @@ tr:nth-child(even) {
 			success : function(response){
 				console.log(response);
 				modal.style.display = "none";
+				alert("Leave Accepted.");
 				location.reload();
 			},
 			error : function(error){
+				alert("Something went wrong.");
 				console.log(error);
 			}
 		});
@@ -186,9 +188,11 @@ tr:nth-child(even) {
 			},
 			success : function(response) {
 				console.log(response);
+				alert("leave rejected.");
 				location.reload();
 			},
 			error : function(error) {
+				alert =("Something went wrong.");
 				console.log(error);
 			}
 		});
