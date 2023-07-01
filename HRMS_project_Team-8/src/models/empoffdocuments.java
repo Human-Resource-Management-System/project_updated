@@ -16,7 +16,7 @@ public class empoffdocuments {
 	@Column(name = "eofd_idty_id")
 	private int eofdIdtyId;
 
-	empoffdocuments() {
+	public empoffdocuments() {
 	}
 
 	public empoffdocuments(empoffdocscomposite empoff, int eofdIdtyId) {

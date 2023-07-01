@@ -90,14 +90,14 @@ public class PayRollServiceImpl implements PayRollService {
 	@Override
 	public double calculateNetPay() {
 
-		this.netpay = (total + additions) - deductions_sal;
+		this.netpay = total - deductions_sal;
 
 		return netpay;
 	}
 
 	@Override
 	public double calculateTotalPay() {
-		this.total = basicpay + hra + ta + da;
+		this.total = basicpay + hra + ta + da + additions;
 		return total;
 	}
 

@@ -54,7 +54,7 @@ public class CandidateController {
 		model.addAttribute("candidates", candidateOutputs);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
-
+		logger.info("Show List of Candidates");
 		return "candidateview";
 	}
 

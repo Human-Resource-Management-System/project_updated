@@ -27,39 +27,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
 import com.itextpdf.html2pdf.HtmlConverter;
 
-@SuppressWarnings("deprecation")
 public class PaySlipMail {
 	public static void sendEmail(HttpServletRequest request, HttpServletResponse response,
 			models.input.output.EmployeePayRollOutputModel payRollOutput) throws Exception {
-		// Set up model attributes with the variables for JSP replacements
 
-		// Resolve JSP view
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
 		String viewName = "payslip";
-		System.out.println("cha...." + payRollOutput);
 		request.setAttribute("pay", payRollOutput);
-		// Render JSP
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/" + viewName + ".jsp");
+
 		StringWriter stringWriter = new StringWriter();
+
 		HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response) {
 			@Override
 			public PrintWriter getWriter() throws IOException {
 				return new PrintWriter(stringWriter);
 			}
 		};
-		requestDispatcher.include(request, responseWrapper);
-		String renderedHtml = stringWriter.toString();
-		OutputStream file = new FileOutputStream(new File("Payslip.pdf"));
 
+		requestDispatcher.include(request, responseWrapper);
+		// Render the jsp content into string
+		String renderedHtml = stringWriter.toString();
+		// Convert the jsp file into pdf
+		OutputStream file = new FileOutputStream(new File("Payslip.pdf"));
 		HtmlConverter.convertToPdf(renderedHtml, file);
 		file.close();
 
+		// Set up the mail properties to mail the payslip pdf
 		Properties p = new Properties();
 		p.put("mail.smtp.host", "smtp.gmail.com");
 		p.put("mail.smtp.auth", true);
@@ -78,7 +73,7 @@ public class PaySlipMail {
 			// mm.setContent(renderedHtml, "text/html");
 			mm.setContent("This is payslip email...........\n", "text/html");
 			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setText("Congratulations You are the new CEO of Google");
+			messageBodyPart.setText("Payslip details");
 
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBodyPart);
@@ -97,8 +92,6 @@ public class PaySlipMail {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// Send the email with the rendered HTML
 
 	}
 

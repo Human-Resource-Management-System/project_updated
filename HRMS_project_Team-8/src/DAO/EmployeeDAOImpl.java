@@ -20,6 +20,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@Override
 	@Transactional
 	public List<Employee> getAllEmployees(HttpSession session) {

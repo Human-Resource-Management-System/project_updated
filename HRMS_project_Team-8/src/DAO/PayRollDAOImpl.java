@@ -13,6 +13,10 @@ public class PayRollDAOImpl implements PayRollDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@Override
 	@Transactional
 	public void insertEmployeePayslip(EmployeePayslip payslip) {

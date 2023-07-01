@@ -5,9 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +22,9 @@ public class HolidayDAOImpl implements HolidayDAO {
 	@Override
 	@Transactional
 	public List<Holiday> findAllHolidays() {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Holiday> cq = cb.createQuery(Holiday.class);
-		Root<Holiday> root = cq.from(Holiday.class);
-		cq.select(root);
-		cq.orderBy(cb.asc(root.get("hday_date")));
-		return entityManager.createQuery(cq).getResultList();
+		TypedQuery<Holiday> query = entityManager.createQuery("SELECT h FROM Holiday h ORDER BY h.hday_date ASC",
+				Holiday.class);
+		return query.getResultList();
 	}
 
 	@Override

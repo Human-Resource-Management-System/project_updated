@@ -7,10 +7,13 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import DAO_Interfaces.CandidateDAO;
+import controllers.CandidateController;
 import models.Candidate;
 import models.Eofr;
 import models.HRDepartment;
@@ -26,11 +29,13 @@ public class CandidateDAOImpl implements CandidateDAO {
 	private EntityManager entityManager;
 	int eofrId;
 	Candidate cann;
+	private static final Logger logger = LoggerFactory.getLogger(CandidateController.class);
 
 	@Override
 	@Transactional
 	public void saveCandidate(Candidate candidate) {
 		entityManager.persist(candidate);
+		logger.info("Inserted new candidate into the database");
 
 	}
 
@@ -38,6 +43,7 @@ public class CandidateDAOImpl implements CandidateDAO {
 	@Transactional
 	public Candidate getCandidateById(int candidateId) {
 
+		logger.info("Retrieved candidate id from the database");
 		return entityManager.find(Candidate.class, candidateId);
 	}
 
@@ -45,6 +51,7 @@ public class CandidateDAOImpl implements CandidateDAO {
 	@Transactional
 	public List<Candidate> getAllCandidates() {
 		String query = "SELECT c FROM Candidate c";
+		logger.info("Retrieved list of candidates from the database");
 		return entityManager.createQuery(query, Candidate.class).getResultList();
 	}
 
@@ -109,7 +116,7 @@ public class CandidateDAOImpl implements CandidateDAO {
 		}
 	}
 
-	private List<Inductiondocuments> getInductionDocuments() {
+	public List<Inductiondocuments> getInductionDocuments() {
 		TypedQuery<Inductiondocuments> query = entityManager.createQuery("SELECT d FROM Inductiondocuments d",
 				Inductiondocuments.class);
 		return query.getResultList();

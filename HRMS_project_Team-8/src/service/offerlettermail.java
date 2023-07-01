@@ -31,7 +31,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.itextpdf.html2pdf.HtmlConverter;
 
-@SuppressWarnings("deprecation")
 public class offerlettermail {
 	public static void sendEmail(HttpServletRequest request, HttpServletResponse response, models.OfferModel offerModel)
 			throws Exception {

@@ -112,7 +112,7 @@
         <form:input path="candStatus" id="candStatus" /><br>
         <form:errors path="candStatus" cssClass="error"/><br><br>
         
-        <input class= "submit-button" type="submit" value="Submit">
+        <input class= "submit-buttons" type="submit" value="Submit">
     </form:form>
     </div>
     

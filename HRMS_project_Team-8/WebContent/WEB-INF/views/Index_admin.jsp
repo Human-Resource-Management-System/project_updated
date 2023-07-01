@@ -165,21 +165,6 @@
     	  });
     	}
 
-    function getCandidates() {
-  	  $.ajax({
-  	    type: "POST",
-  	    url: "candidates",
-  	    data: {},
-  	    success: function(response) {
-  	      var containerDiv = $("#main");
-  	      containerDiv.html(response);
-  	    },
-  	    error: function() {
-  	      alert("Error occurred. Please try again later.");
-  	    }
-  	  });
-  	}
-
     
     
     function getemployees() {
@@ -459,7 +444,7 @@
   	  });
   	}
     
-    $(document).on("click", ".submit-button", function(e) {
+    $(document).on("click", ".submit-buttons", function(e) {
         e.preventDefault();
         submitCandidateForm();
     });
